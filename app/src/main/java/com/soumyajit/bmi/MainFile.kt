@@ -1,6 +1,5 @@
 package com.soumyajit.bmi
 
-import android.icu.text.CaseMap
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,16 +10,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Label
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -34,12 +29,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun MainFunction() {
     var height by remember { mutableStateOf("") }
     var Weight by remember { mutableStateOf("") }
     var result by remember { mutableStateOf("") }
+    var resultBox by remember {mutableStateOf(false)}
 
     var context = LocalContext.current
     fun bmi(){
@@ -74,6 +71,8 @@ fun MainFunction() {
                     .fillMaxWidth()
                     .padding(vertical = 10.dp)
             )
+            Spacer(modifier = Modifier.height(110.dp))
+
 
             // Input Fields
             Row(
@@ -98,11 +97,45 @@ fun MainFunction() {
                         .weight(1f)
                 )
             }
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(30.dp))
             //calculation
-            Button(onClick = {}) {
+            Button(onClick = {resultBox= true
+                bmi()}) {
                 Text("Calculate")
             }
+            Spacer(modifier = Modifier.height(200.dp))
+
+            Text(
+                text = "Made with ❤️ by SoumyajiT",
+                fontSize = 14.sp,
+                color = Color.Gray,
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(8.dp)
+            )
+        }
+        if(resultBox){
+            AlertDialog(onDismissRequest = {resultBox=false},
+                confirmButton = {
+                    TextButton(onClick = { resultBox = false }) {
+                        Text("OK")
+
+                }
+                                },
+                title = {Text("BMI Result :")},
+                    text = {
+                        Column {
+                            Text("Your BMI is $result", fontWeight = FontWeight.Bold)
+                            Spacer(modifier = Modifier.height(16.dp))
+
+                            Text("BMI Chart:", fontWeight = FontWeight.Bold)
+                            Text("• Underweight: < 18.5")
+                            Text("• Normal: 18.5 – 24.9")
+                            Text("• Overweight: 25.0 – 29.9")
+                            Text("• Obese: 30+")
+                        }
+            })
+
         }
 
     }
