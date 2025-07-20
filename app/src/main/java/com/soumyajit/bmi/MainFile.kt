@@ -1,4 +1,4 @@
-package com.soumyajit.bmi
+package com.soumyajit.bmi.com.soumyajit.bmi
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
